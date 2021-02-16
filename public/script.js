@@ -5,6 +5,8 @@ const myPeer = new Peer(undefined, {
   host: '/',
   port: '443'
 })
+let person = "";
+
 let myVideoStream;
 const myVideo = document.createElement('video')
 myVideo.muted = true;
@@ -24,8 +26,9 @@ navigator.mediaDevices.getUserMedia({
   })
 
   socket.on('user-connected', userId => {
-    connectToNewUser(userId, stream)
+    connectToNewUser(userId, stream)    
   })
+
   // input value
   let text = $("input");
   // when press enter send message
@@ -36,7 +39,7 @@ navigator.mediaDevices.getUserMedia({
     }
   });
   socket.on("createMessage", message => {
-    $("ul").append(`<li class="message"><b>user</b><br/>${message}</li>`);
+    $("ul").append(`<li class="message"><b>${person}</b><br/>${message}</li>`);
     scrollToBottom()
   })
 })
@@ -66,6 +69,8 @@ function connectToNewUser(userId, stream) {
 
 function addVideoStream(video, stream) {
   video.srcObject = stream
+  person = stream.id
+  console.log('func', person)
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
@@ -92,7 +97,7 @@ const muteUnmute = () => {
 }
 
 const playStop = () => {
-  console.log('object')
+  console.log('playstop', person)
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
@@ -135,7 +140,7 @@ const setPlayVideo = () => {
   document.querySelector('.main__video_button').innerHTML = html;
 }
 
-
+console.log(person)
 
 
 
