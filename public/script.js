@@ -148,7 +148,8 @@ const setPlayVideo = () => {
 
 
 const rename = document.querySelector('#rename-name');
-const copy = document.querySelector('#copy');
+const download = document.querySelector('#copy');
+const copy = document.querySelector('.share__link');
 
 rename.addEventListener('change', (e) => {
   // console.log(e.target.value)
@@ -164,15 +165,15 @@ function copyToClipboard(element) {
   $temp.val($url).select();
   document.execCommand("copy");
   $temp.remove();
-  element.target.style.color = "lightgrey"
-  $("#copied").text("copied!");
+  download.style.color = "tomato"
+  $("#copied").text("copied!").css({"border": "1px solid rgb(36,35,36)", "margin-top": "5px"})
   setTimeout(()=>{
-    $("#copied").text("");
-    element.target.style.removeProperty("color")
+    $("#copied").text("").css({"border": '0px', "margin-top": "0px"});
+    download.style.removeProperty("color")
   }, 1000)
-
 }
  
+
 
 
 
