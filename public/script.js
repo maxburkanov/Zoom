@@ -34,17 +34,17 @@ navigator.mediaDevices.getUserMedia({
   // when press enter send message
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
-      // const messageToSend = {        
-      //   text: text.val(),
-      //   user: person || "User"
-      // }
-      socket.emit('message', text.val());
+      const messageToSend = {        
+        text: text.val(),
+        user: person || "User"
+      }
+      socket.emit('message', messageToSend);
       text.val('')
     }
   });
   socket.on("createMessage", (message) => {
     console.log('message', message)
-    $("ul").append(`<li class="message"><b style="color:grey">${"message.user"}</b><br/>${message}</li>`);
+    $("ul").append(`<li class="message"><b style="color:grey">${message.user}</b><br/>${message.text}</li>`);
     scrollToBottom()
   })
 })
