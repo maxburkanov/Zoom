@@ -38,8 +38,24 @@
   padding: 5px;
 }
 
-.main__controls__block {
+.main__controls__block  {
   display: flex;
+  justify-content: space-between;
+}
+
+.share__link {
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+
+.fa-download {
+  transition: 1.5s;
+}
+
+
+.name__section {
+  margin-right: 10px;
 }
 
 .main__controls__button {

@@ -3,7 +3,7 @@ const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
-  port: '443'
+  port: '3000'//'443'
 })
 let person = "";
 
@@ -30,16 +30,21 @@ navigator.mediaDevices.getUserMedia({
   })
 
   // input value
-  let text = $("input");
+  let text = $("#chat_message");
   // when press enter send message
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
-      socket.emit('message', text.val());
+      const messageToSend = {        
+        text: text.val(),
+        user: person || "User"
+      }
+      socket.emit('message', messageToSend);
       text.val('')
     }
   });
-  socket.on("createMessage", message => {
-    $("ul").append(`<li class="message"><b>${person}</b><br/>${message}</li>`);
+  socket.on("createMessage", (message) => {
+    console.log('message', message)
+    $("ul").append(`<li class="message"><b style="color:grey">${message.user}</b><br/>${message.text}</li>`);
     scrollToBottom()
   })
 })
@@ -69,8 +74,8 @@ function connectToNewUser(userId, stream) {
 
 function addVideoStream(video, stream) {
   video.srcObject = stream
-  person = stream.id
-  console.log('func', person)
+  // person = stream.id
+  // console.log('func', person)
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
@@ -97,7 +102,6 @@ const muteUnmute = () => {
 }
 
 const playStop = () => {
-  console.log('playstop', person)
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
@@ -140,6 +144,38 @@ const setPlayVideo = () => {
   document.querySelector('.main__video_button').innerHTML = html;
 }
 
+
+
+
+const rename = document.querySelector('#rename-name');
+const copy = document.querySelector('#copy');
+
+rename.addEventListener('change', (e) => {
+  // console.log(e.target.value)
+  person = e.target.value
+})
+
+copy.addEventListener('click', copyToClipboard)
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  var $url = $(location).attr('href');
+  
+  $("body").append($temp);
+  $temp.val($url).select();
+  document.execCommand("copy");
+  $temp.remove();
+  element.target.style.color = "lightgrey"
+  $("#copied").text("copied!");
+  setTimeout(()=>{
+    $("#copied").text("");
+    element.target.style.removeProperty("color")
+  }, 1000)
+
+}
+ 
+
+
+
 console.log(person)
 
 
@@ -154,71 +190,3 @@ console.log(person)
 
 
 
-
-// const socket = io('/')
-// const videoGrid = document.getElementById('video-grid')
-// const peer = new Peer(undefined, {
-//   path: '/peerjs',
-//   host: '/',
-//   port: '443'
-// })
-
-// let myVideoStream;
-// const myVideo = document.createElement('video')
-// myVideo.muted = true
-// const peers = {}
-
-// navigator.mediaDevices.getUserMedia({
-//   video: true,
-//   audio: true
-// }).then(stream => {
-//   myVideoStream = stream
-//   addVideoStream(myVideo, stream)
-
-//   peer.on('call', call => {
-//     call.answer(stream)
-//     const video = document.createElement('video')
-//     call.on('stream', userVideoStream => {
-//       addVideoStream(video, userVideoStream)
-//     })
-//   })
-  
-//   socket.on('user-connected', userId => {
-//     connectToNewUser(userId, stream)
-//   })
-
-// })
-
-
-// socket.on('user-disconnected', userId => {
-//   if (peers[userId]) peers[userId].close()
-// })
-
-// peer.on('open', id => {
-//   socket.emit('join-room', ROOM_ID, id) 
-// })
-
-
-// function connectToNewUser(userId, stream) {
-//   const call = peer.call(userId, stream)
-//   const video = document.createElement('video')
-
-//   call.on('stream', userVideoStream => {
-//     addVideoStream(video, userVideoStream)
-//   })
-
-//   call.on('close', () => {
-//     video.remove()
-//   })
-
-//   peers[userId] = call
-// }
-
-// function addVideoStream(video, stream) {
-//   video.srcObject = stream
-  
-//   video.addEventListener('loadedmetadata', () => {
-//     video.play()
-//   })
-//   videoGrid.append(video)
-// }
