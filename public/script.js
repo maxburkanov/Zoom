@@ -44,7 +44,8 @@ navigator.mediaDevices.getUserMedia({
   });
   socket.on("createMessage", (message) => {
     console.log('message', message)
-    $("ul").append(`<li class="message"><b style="color:grey">${message.user}</b><br/>${message.text}</li>`);
+    const tag = message.text.includes("http")? `<a target="_blank" href=${message.text}>${message.text}</a>` : message.text
+    $("ul").append(`<li class="message"><b style="color:grey">${message.user}</b><br/>${tag}</li>`);
     scrollToBottom()
   })
 })
