@@ -3,7 +3,7 @@ const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
-  port: '3000'//'443'
+  port: '443'
 })
 let person = "";
 
@@ -34,17 +34,17 @@ navigator.mediaDevices.getUserMedia({
   // when press enter send message
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
-      const messageToSend = {        
-        text: text.val(),
-        user: person || "User"
-      }
-      socket.emit('message', messageToSend);
+      // const messageToSend = {        
+      //   text: text.val(),
+      //   user: person || "User"
+      // }
+      socket.emit('message', text.val());
       text.val('')
     }
   });
   socket.on("createMessage", (message) => {
     console.log('message', message)
-    $("ul").append(`<li class="message"><b style="color:grey">${message.user}</b><br/>${message.text}</li>`);
+    $("ul").append(`<li class="message"><b style="color:grey">${"message.user"}</b><br/>${message}</li>`);
     scrollToBottom()
   })
 })
