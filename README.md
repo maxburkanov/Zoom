@@ -14,8 +14,8 @@
 #### UUID for unique id's of users
 
 ##### Copy link 
-![Alt text](public\copyLink.png?raw=true "Title")
+![Alt text](public/copyLink.png?raw=true "Title")
 
 ##### Enter your name 
 ##### and chat live with socket.io
-![Alt text](public\liveMessages.png?raw=true "Title")
+![Alt text](public/liveMessages.png?raw=true "Title")
