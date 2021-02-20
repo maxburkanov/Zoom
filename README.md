@@ -1,7 +1,7 @@
 # Video chat app
 #### open an app deployed at heroku
 #### https://video-app-burkanov.herokuapp.com/
-#### Copy your url and send it to your friend
+#### Click to copy link and send it to your friend
 #### you'll get free zoom video call 
 #### ability to chat live 
 
